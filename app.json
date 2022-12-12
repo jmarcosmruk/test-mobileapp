@@ -1,0 +1,54 @@
+{
+  "expo": {
+    "name": "TestApp",
+    "slug": "jmarcosmruk-testapp",
+    "version": "0.95.8",
+    "platforms": [
+      "android"
+    ],
+    "orientation": "portrait",
+    "primaryColor": "#F46900",
+    "backgroundColor": "#cccccc",
+    "icon": "./app/assets/icons/icon.png",
+    "splash": {
+      "image": "./app/assets/icons/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#cccccc"
+    },
+    "notification": {
+      "androidMode": "default",
+      "androidCollapsedTitle": "Test APP"
+    },
+    "android": {
+      "icon": "./app/assets/icons/icon.png",
+      "package": "br.com.jmarcosmruk.test_app",
+      "versionCode": 120,
+      "adaptiveIcon": {
+        "foregroundImage": "./app/assets/icons/adaptive-icon.png",
+        "backgroundColor": "#F46900"
+      },
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
+    },
+    "androidNavigationBar": {
+      "backgroundColor": "#F46900",
+      "barStyle": "light-content"
+    },
+    "androidStatusBar": {
+      "barStyle": "light-content",
+      "translucent": false,
+      "backgroundColor": "#F46900"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
