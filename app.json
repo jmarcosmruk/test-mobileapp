@@ -22,7 +22,7 @@
     "android": {
       "icon": "./app/assets/icons/icon.png",
       "package": "br.com.jmarcosmruk.test_app",
-      "versionCode": 120,
+      "versionCode": 122,
       "adaptiveIcon": {
         "foregroundImage": "./app/assets/icons/adaptive-icon.png",
         "backgroundColor": "#F46900"
@@ -49,6 +49,11 @@
     },
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "8eb356a3-c72b-4797-8d9e-a8762d519ed3"
+      }
+    }
   }
 }

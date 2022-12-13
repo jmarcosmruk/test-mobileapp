@@ -2,6 +2,7 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import * as Font from 'expo-font';
 import { StatusBar } from 'expo-status-bar';
+import { Alert, Platform, BackHandler } from 'react-native';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider as ReduxProvider } from 'react-redux';
@@ -13,96 +14,53 @@ import { store, persistor } from './app/src/stores';
 import * as SplashScreen from 'expo-splash-screen';
 import FlashMessage from 'react-native-flash-message';
 
+SplashScreen.preventAutoHideAsync();
+
 export default function App() {
+
     const { theme } = useTheme();
 
-    // const loadResources = async () => {
-    //     // console.log("Carregando recursos");
+    const [loaded, setLoaded] = React.useState(false);
 
-    //     let fonts = Font.loadAsync({
-    //         'century-gothic': require('./app/assets/fonts/century-gothic/century-gothic.ttf'),
-    //         'century-gothic-bold': require('./app/assets/fonts/century-gothic/century-gothic-bold.ttf'),
-    //     });
-
-    //     return fonts;
-    // };
-
-    // function errorMessage() {
-    //     // console.log("ERRO AO CARREGAR FONTES!!!")
-    //     if (Platform.OS == 'web') {
-    //         alert('Problema ao iniciar. Por favor recarregue a página.');
-    //     } else {
-    //         Alert.alert(
-    //             'Problema ao iniciar',
-    //             'Reinicie o aplicativo',
-    //             [{ text: 'Ok', onPress: () => BackHandler.exitApp() }],
-    //             { cancelable: false }
-    //         );
-    //     }
-    // }
-
-    // const [resourcesLoaded, setResourcesLoaded] = useState(false);
-
-    // function resourcesLoading() {
-    //     return (
-    //         <AppLoading
-    //             startAsync={loadResources}
-    //             onFinish={() => setResourcesLoaded(true)}
-    //             onError={() => errorMessage()}
-    //         />
-    //     );
-    // }
-
-    // if (!resourcesLoaded) {
-    //     return resourcesLoading();
-    // }
-    
-    // const [loaded, setLoaded] = React.useState(false)
-
-    // async function loadFonts(){
-
-        Font.useFonts({
+    async function loadFonts() {
+        console.log('CARREGANDO FONTES');
+        Font.loadAsync({
             'century-gothic': require('./app/assets/fonts/century-gothic/century-gothic.ttf'),
             'century-gothic-bold': require('./app/assets/fonts/century-gothic/century-gothic-bold.ttf'),
+        }).then(() =>{
+            console.log('----------------------------------------------------CARREGADAS......');
+            setLoaded(true);
         });
 
-    //     setLoaded(true);
-    // }
+        
+    }
 
-    
+    React.useEffect(() => {
+        loadFonts();
+    }, []);
 
-    // React.useEffect(() => {
-    //     console.log('PREPARANDO SPLASHSCREEN');
-    //     // SplashScreen.preventAutoHideAsync();
+    React.useEffect(() => {
+        if (loaded) {
+            hideSplash();
+        }
+    }, [, loaded]);
 
-    //     fetch('http://192.168.100.5:8081/api/loging?log=PREPARANDO SPLASHSCREEN');
-    //     loadFonts();
-    // }, []);
+    const onLayoutRootView = React.useCallback(() => {
+        console.log(JSON.stringify({message: 'TELA PRONTA' , loaded} ));
+        if (loaded) {
+            hideSplash();
+        }
+    }, [,loaded]);
 
-    // React.useEffect(()=> {
-    //     hideSplash();
-    // }, [,loaded])
-
-    // const onLayoutRootView = React.useCallback(() => {
-    //     hideSplash()     
-    // }, [loaded]);
-
-    // async function hideSplash(){
-    //     console.log('VERIFICANDO FONTES');
-    //     if (loaded) {
-    //         console.log('FONTES CARREGADAS');
-    //         // await SplashScreen.hideAsync()
-    //         setLoaded(true);
-    //     }
-    // }
-
-    // if (!loaded) {
-    //     return null
-    // }
+    async function hideSplash() {
+        console.log('VERIFICANDO FONTES');
+        console.log('FONTES CARREGADAS?');
+        SplashScreen.hideAsync();
+    }
 
     return (
         // <AppearanceProvider>
-        <NavigationContainer onReady={()=>{}}>
+        <NavigationContainer onReady={onLayoutRootView}>
             <ReduxProvider store={store}>
                 <PersistGate loading={null} persistor={persistor}>
                     <SafeAreaProvider>
@@ -121,4 +79,3 @@ export default function App() {
         // </AppearanceProvider>
     );
 }
-
